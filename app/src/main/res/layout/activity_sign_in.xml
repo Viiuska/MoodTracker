@@ -4,42 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".SignIn">
+
+    <ImageButton
+        android:id="@+id/ibtnSettings7"
+        android:layout_width="48dp"
+        android:layout_height="46dp"
+        android:backgroundTint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_settings" />
 
     <EditText
         android:id="@+id/etPassword2"
         android:layout_width="271dp"
-        android:layout_height="46dp"
+        android:layout_height="48dp"
         android:background="#DFE6DF"
-        android:fontFamily="casual"
+        android:ems="10"
+        android:fontFamily="sans-serif"
         android:hint=" Password"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.414" />
-
-    <EditText
-        android:id="@+id/etPassword3"
-        android:layout_width="271dp"
-        android:layout_height="46dp"
-        android:background="#DFE6DF"
-        android:fontFamily="casual"
-        android:hint=" Password"
+        android:inputType="textPassword"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.54" />
+        app:layout_constraintVertical_bias="0.418" />
 
     <Button
         android:id="@+id/btnSignin"
         android:layout_width="102dp"
         android:layout_height="39dp"
-        android:background="#4D9C50"
+        android:background="@color/light_green"
         android:fontFamily="casual"
         android:text="Sign in"
         android:textColor="#FFFFFF"
@@ -71,7 +69,7 @@
         android:layout_width="270dp"
         android:layout_height="51dp"
         android:background="#DFE6DF"
-        android:fontFamily="casual"
+        android:fontFamily="sans-serif"
         android:hint=" Email"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -123,4 +121,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.956" />
+
+    <EditText
+        android:id="@+id/etPassword3"
+        android:layout_width="271dp"
+        android:layout_height="48dp"
+        android:background="#DFE6DF"
+        android:ems="10"
+        android:hint=" Password"
+        android:inputType="textPassword"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.538" />
 </androidx.constraintlayout.widget.ConstraintLayout>
