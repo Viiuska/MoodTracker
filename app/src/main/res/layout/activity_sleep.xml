@@ -7,6 +7,21 @@
     tools:context=".Sleep">
 
 
+    <TextView
+        android:id="@+id/tvDateTimeSleep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="casual"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.248"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.272"
+        tools:text="10.15.2022" />
+
     <ImageButton
         android:id="@+id/ibtnSettings8"
         android:layout_width="48dp"
@@ -17,7 +32,7 @@
         app:srcCompat="@drawable/ic_settings" />
 
     <com.hsalf.smilerating.SmileRating
-        android:id="@+id/smile_rating_mood"
+        android:id="@+id/smile_rating_sleep"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -87,32 +102,18 @@
         app:layout_constraintVertical_bias="0.184" />
 
     <EditText
-        android:id="@+id/etDateSleep"
-        android:layout_width="146dp"
-        android:layout_height="45dp"
-        android:ems="10"
-        android:inputType="date"
-        android:text="Date:"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.109"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.269" />
-
-    <EditText
         android:id="@+id/etTimeSleep"
-        android:layout_width="149dp"
-        android:layout_height="52dp"
+        android:layout_width="83dp"
+        android:layout_height="48dp"
         android:ems="10"
+        android:fontFamily="casual"
         android:inputType="time"
-        android:text="Hours:"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.938"
+        app:layout_constraintHorizontal_bias="0.85"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.262" />
+        app:layout_constraintVertical_bias="0.26" />
 
     <TextView
         android:id="@+id/tvTellSleep"
@@ -142,6 +143,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.771" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="casual"
+        android:text="Hours:"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.63"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.26999998" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

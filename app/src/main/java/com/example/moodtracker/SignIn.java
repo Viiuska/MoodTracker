@@ -3,6 +3,7 @@ package com.example.moodtracker;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,9 +16,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignIn extends AppCompatActivity {
 
@@ -28,7 +40,11 @@ public class SignIn extends AppCompatActivity {
     EditText etPassword2;
     EditText etPassword3;
     FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
     ImageButton ibtnSettings;
+
+    String name = ".newProf.csv";
+    String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +55,7 @@ public class SignIn extends AppCompatActivity {
         etPassword2 = findViewById(R.id.etPassword3);
         etPassword3 = findViewById(R.id.etPassword3);
         fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
 
         btnSigIn = findViewById(R.id.btnSignin);
         progressBar = findViewById(R.id.progressBar);
@@ -95,10 +112,22 @@ public class SignIn extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(SignIn.this,"User created", Toast.LENGTH_SHORT);
-                            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                            userID = fAuth.getCurrentUser().getUid();
+                            createFile(userID);
+                            writeFile(email, userID);
+                            DocumentReference documentReference= fStore.collection("users").document(userID);
+                            Map<String, Object> user = new HashMap<>();
+                            user.put("UserEmail", email);
+                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(SignIn.this, "User is created for"+documentReference.getId(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            Intent i = new Intent(getApplicationContext(), Profile.class);
                             startActivity(i);
                         }else {
-                            Toast.makeText(SignIn.this, "Error "+task.getException(), Toast.LENGTH_SHORT);
+                            Toast.makeText(SignIn.this, "Error "+task.getException(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -114,6 +143,34 @@ public class SignIn extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void createFile(String user){
+        try {
+            String content = "Email;\n";
+            File file = new File(this.getFilesDir().getPath()+"/"+user+name);
+
+            if(!file.exists()){
+                file.createNewFile();
+                OutputStreamWriter writer = new OutputStreamWriter(this.openFileOutput(user+name, Context.MODE_PRIVATE));
+                writer.write(content);
+                writer.close();
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void writeFile(String newName, String user){
+        try (FileWriter fw = new FileWriter(this.getFilesDir().getPath()+"/"+user+name,true)){
+            BufferedWriter writer = new BufferedWriter(fw);
+            writer.append(newName+";\n");
+            writer.flush();
+            writer.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
 
     }
+
 }

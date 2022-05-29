@@ -11,9 +11,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Scanner;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +39,16 @@ public class MainActivity extends AppCompatActivity {
     Button btnAnxiety;
     Button btnMentally;
     ImageButton ibtnSettings;
+    TextView tvSleepNum;
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
+
+    String person;
+    String filenameSleep = ".Sleep.csv";
+
+    Calendar calendar = Calendar.getInstance();
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    String currentDate = simpleDateFormat.format(calendar.getTime());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +62,11 @@ public class MainActivity extends AppCompatActivity {
         btnSleep = findViewById(R.id.btnSleep);
         btnAnxiety = findViewById(R.id.btnAnxiety);
         btnMentally = findViewById(R.id.btnMentally);
+        tvSleepNum = findViewById(R.id.tvSleepNum);
+
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+        person = fAuth.getCurrentUser().getUid();
 
         btnMoodAdd.setOnClickListener(this::onClick);
         btnSleepAdd.setOnClickListener(this::onClick);
@@ -55,6 +84,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        int sleepInfo = readFileSleep(filenameSleep, person);
+        tvSleepNum.setText(String.valueOf(sleepInfo+"h"));
+
+
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.home);
@@ -132,4 +166,86 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
+
+    public int readFileSleep(String name, String person) {
+        int sleepTotal = 0;
+        int row = 0;
+        int div=0;
+        String today = "";
+        String sleepToday = "";
+
+        try {
+            Scanner inputStream = new Scanner(new File(this.getFilesDir().getPath() + "/" + person + name));
+            String line = inputStream.nextLine();
+
+            while (inputStream.hasNextLine()) {
+                line = inputStream.nextLine();
+                String[] ary = line.split(";");
+                today = ary[0];
+                sleepToday = ary[1];
+                row++;
+            }
+            div=row;
+            if (String.valueOf(currentDate).equals(today)) {
+                btnSleepAdd.setText(sleepToday + " hour");
+            } else {
+                btnSleepAdd.setText("Add?");
+            }
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        //Let's calculate the weeks average sleep.
+        BufferedReader br = null;
+        try {
+            String sline;
+            String[] slines;
+            br = new BufferedReader(new FileReader(this.getFilesDir().getPath() + "/" + person + name));
+            StringBuffer buffer = new StringBuffer();
+            while ((sline = br.readLine()) != null) {
+                sline = sline + ",";
+                buffer.append(sline);
+            }
+            String result = buffer.toString();
+            slines = result.split(",");
+
+            if (row - 6 < 0) {
+                while (row > 0) {
+                    String wanted = slines[row];
+                    String[] sleepInfo = wanted.split(";");
+                    row--;
+                    int weeksSleep = Integer.parseInt(sleepInfo[1]);
+                    sleepTotal += weeksSleep;
+                }
+                sleepTotal/=div;
+            } else {
+                for (int lastRows = row - 6; lastRows <= row; lastRows++) {
+                    String wanted = slines[lastRows];
+                    String[] sleepInfo = wanted.split(";");
+
+                    int weeksSleep = Integer.parseInt(sleepInfo[1]);
+                    sleepTotal += weeksSleep;
+                }
+                sleepTotal/=7;
+            }
+
+            return sleepTotal;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (br != null) {
+                    br.close();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return sleepTotal;
+    }
+
 }

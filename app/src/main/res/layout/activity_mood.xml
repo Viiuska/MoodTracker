@@ -46,7 +46,7 @@
         app:layout_constraintVertical_bias="0.042" />
 
     <TextView
-        android:id="@+id/tvAskSleep"
+        android:id="@+id/tvAskMood"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="casual"
@@ -59,37 +59,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.184" />
 
-    <EditText
-        android:id="@+id/etDateSleep"
-        android:layout_width="146dp"
-        android:layout_height="45dp"
-        android:ems="10"
-        android:inputType="date"
-        android:text="Date:"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.109"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.269" />
-
-    <EditText
-        android:id="@+id/etTimeSleep"
-        android:layout_width="149dp"
-        android:layout_height="52dp"
-        android:ems="10"
-        android:inputType="time"
-        android:text="Time:"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.938"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.262" />
-
 
     <TextView
-        android:id="@+id/tvTellSleep"
+        android:id="@+id/tvTellMood"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="casual"
@@ -103,7 +75,7 @@
         app:layout_constraintVertical_bias="0.474" />
 
     <EditText
-        android:id="@+id/etSleepDiary"
+        android:id="@+id/etMoodDiary"
         android:layout_width="332dp"
         android:layout_height="253dp"
         android:background="#DFE6DF"
@@ -143,5 +115,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.942" />
+
+    <TextView
+        android:id="@+id/tvDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="casual"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.268" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
