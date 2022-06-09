@@ -66,7 +66,7 @@ public class Sleep extends AppCompatActivity {
         person = fAuth.getCurrentUser().getUid();
 
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
         String currentDate = simpleDateFormat.format(calendar.getTime());
         tvDateTimeSleep.setText(currentDate);
 
@@ -178,7 +178,6 @@ public class Sleep extends AppCompatActivity {
                 int weeksSleep = Integer.parseInt(ary[1]);
                 sleepTotal+= weeksSleep;
             }
-            System.out.println("Moro, unen määrä "+ sleepTotal);
             return sleepTotal;
 
         }catch (FileNotFoundException e) {
@@ -186,4 +185,5 @@ public class Sleep extends AppCompatActivity {
         }
         return sleepTotal;
     }
+
 }

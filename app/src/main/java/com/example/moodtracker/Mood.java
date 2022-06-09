@@ -40,8 +40,10 @@ public class Mood extends AppCompatActivity {
     FirebaseFirestore fStore;
 
     String person;
-    String filename = ".Mood.csv";
+    String filenameMood = ".Mood.csv";
+    String filenameMoodOverall = ".MoodOverall.csv";
     String moodLevel;
+    int moodNum=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +62,12 @@ public class Mood extends AppCompatActivity {
         person = fAuth.getCurrentUser().getUid();
 
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        SimpleDateFormat sDF = new SimpleDateFormat("dd.MM");
 
         String currentDate = simpleDateFormat.format(calendar.getTime());
         tvDateTime.setText(currentDate);
-
+        String dayMonth = sDF.format(calendar.getTime());
 
         ibtnSettings = findViewById(R.id.ibtnSettings5);
 
@@ -82,21 +85,27 @@ public class Mood extends AppCompatActivity {
                 switch (smiley) {
                     case SmileRating.TERRIBLE:
                         moodLevel = "TERRIBLE";
+                        moodNum = 1;
                         break;
                     case SmileRating.BAD:
                         moodLevel = "BAD";
+                        moodNum=2;
                         break;
                     case SmileRating.OKAY:
                         moodLevel = "OKAY";
+                        moodNum = 3;
                         break;
                     case SmileRating.GOOD:
                         moodLevel = "GOOD";
+                        moodNum = 4;
                         break;
                     case SmileRating.GREAT:
                         moodLevel = "GREAT";
+                        moodNum = 5;
                         break;
                     case SmileRating.NONE:
                         moodLevel = "NONE";
+                        moodNum = 0;
                         break;
                 }
             }
@@ -105,13 +114,18 @@ public class Mood extends AppCompatActivity {
         btnSaveMood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createFile(filename);
-                createFile(person);
+                String text ="Date;Mood;Text;\n";
+                createFile(filenameMood, text, filenameMood);
+                String textOverall = "Date;Mood;\n";
+                createFile(filenameMoodOverall, textOverall, filenameMoodOverall);
+                createFile(person, text,filenameMood);
+                createFile(person, textOverall,filenameMoodOverall);
 
                 String udate = tvDateTime.getText().toString().trim();
                 String udiary = etMoodDiary.getText().toString().trim();
 
                 writeFile(udate, moodLevel, udiary, person);
+                writeFileOverall(dayMonth, moodNum, person, filenameMoodOverall);
 
                 Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
@@ -130,9 +144,8 @@ public class Mood extends AppCompatActivity {
 
     }
 
-    public void createFile(String person){
+    public void createFile(String person, String content, String filename){
         try {
-            String content = "Date;Mood;Text;\n";
             File file = new File(this.getFilesDir().getPath()+"/"+person+filename);
 
             if (!file.exists()) {
@@ -148,7 +161,7 @@ public class Mood extends AppCompatActivity {
 
 
     public void writeFile(String date, String level, String text, String person){
-        try (FileWriter fw = new FileWriter(this.getFilesDir().getPath()+"/"+person+filename, true)){
+        try (FileWriter fw = new FileWriter(this.getFilesDir().getPath()+"/"+person+filenameMood, true)){
             BufferedWriter writer = new BufferedWriter(fw);
             writer.append(date+";"+level+";"+text+"\n");
             writer.flush();
@@ -158,35 +171,61 @@ public class Mood extends AppCompatActivity {
         }
     }
 
-    public String [] readFile(String name, String person){
+    public void writeFileOverall(String date, int level, String person, String name){
         BufferedReader br = null;
+        String line ="";
+        String[] lines;
+        StringBuffer stringBuffer = new StringBuffer();
         try {
-            String line;
-            String[] lines;
-            br = new BufferedReader(new FileReader(this.getFilesDir().getPath()+"/"+person+name));
-            StringBuffer buffer = new StringBuffer();
-            while((line = br.readLine())!= null){
-                line = line+",";
-                buffer.append(line);
+            br = new BufferedReader(new FileReader(this.getFilesDir().getPath() +"/"+person+filenameMoodOverall));
+            while ((line = br.readLine()) != null) {
+                line = line + ",";
+                stringBuffer.append(line);
             }
-            String result = buffer.toString();
+            String result = stringBuffer.toString();
             lines = result.split(",");
+            System.out.println("result "+result);
 
             String wanted = lines[lines.length-1];
-            String[] userInfo = wanted.split(";");
-            return userInfo;
-        }catch (IOException e){
-            e.printStackTrace();
-        }finally {
-            try {
-                if (br != null){
-                    br.close();
+            String[] moodOverallInfo = wanted.split(";");
+
+                if(moodOverallInfo[0].equals(date)){
+                    try (FileWriter fw = new FileWriter(this.getFilesDir().getPath()+"/"+person+filenameMoodOverall, false)){
+                        BufferedWriter writer = new BufferedWriter(fw);
+                        int daysMood = Integer.parseInt(moodOverallInfo[1]);
+                        daysMood+=level;
+                        int daysOverallMood= daysMood/2;
+                        result = result.replaceAll(wanted, (date+";"+daysOverallMood+"\n"));
+                        writer.write(result);
+                        writer.flush();
+                        writer.close();
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
                 }
-            }catch (IOException ex){
+                else{
+                    try (FileWriter fw = new FileWriter(this.getFilesDir().getPath()+"/"+person+filenameMoodOverall, true)){
+                        BufferedWriter writer = new BufferedWriter(fw);
+                        writer.append(date+";"+level+"\n");
+                        writer.flush();
+                        writer.close();
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+
+                }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (br != null)br.close();
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
-        String[] userInfo =null;
-        return  userInfo;
+
     }
+
+
 }

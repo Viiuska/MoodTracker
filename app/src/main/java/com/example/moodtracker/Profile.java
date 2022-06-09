@@ -31,8 +31,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 
 
-
-//data/user/0/com.examaple.moontracker/files/
 public class Profile extends AppCompatActivity {
 
     Button btnSaveProfile;

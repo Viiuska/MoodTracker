@@ -101,20 +101,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.184" />
 
-    <EditText
-        android:id="@+id/etTimeSleep"
-        android:layout_width="83dp"
-        android:layout_height="48dp"
-        android:ems="10"
-        android:fontFamily="casual"
-        android:inputType="time"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.85"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.26" />
-
     <TextView
         android:id="@+id/tvTellSleep"
         android:layout_width="wrap_content"
@@ -158,6 +144,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.26999998" />
+
+    <EditText
+        android:id="@+id/etTimeSleep"
+        android:layout_width="83dp"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:fontFamily="casual"
+        android:inputType="number"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.853"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.266" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

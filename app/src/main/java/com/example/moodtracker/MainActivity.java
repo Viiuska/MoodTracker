@@ -40,14 +40,16 @@ public class MainActivity extends AppCompatActivity {
     Button btnMentally;
     ImageButton ibtnSettings;
     TextView tvSleepNum;
+    TextView tvMoodState;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
 
     String person;
+    String filenameMood = ".Mood.csv";
     String filenameSleep = ".Sleep.csv";
 
     Calendar calendar = Calendar.getInstance();
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
     String currentDate = simpleDateFormat.format(calendar.getTime());
 
     @Override
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         btnAnxiety = findViewById(R.id.btnAnxiety);
         btnMentally = findViewById(R.id.btnMentally);
         tvSleepNum = findViewById(R.id.tvSleepNum);
+        tvMoodState = findViewById(R.id.tvMoodState);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -86,9 +89,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         int sleepInfo = readFileSleep(filenameSleep, person);
-        tvSleepNum.setText(String.valueOf(sleepInfo+"h"));
+        tvSleepNum.setText(String.valueOf(sleepInfo+"h per night"));
 
 
+        String [] moodInfo = readFileMood(filenameMood, person);
+        if(moodInfo != null){
+            tvMoodState.setText(moodInfo[1]);
+        }
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.home);
@@ -188,8 +195,6 @@ public class MainActivity extends AppCompatActivity {
             div=row;
             if (String.valueOf(currentDate).equals(today)) {
                 btnSleepAdd.setText(sleepToday + " hour");
-            } else {
-                btnSleepAdd.setText("Add?");
             }
             inputStream.close();
         } catch (FileNotFoundException e) {
@@ -221,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 sleepTotal/=div;
             } else {
-                for (int lastRows = row - 6; lastRows <= row; lastRows++) {
+                for (int lastRows = row - 5; lastRows <= row; lastRows++) {
                     String wanted = slines[lastRows];
                     String[] sleepInfo = wanted.split(";");
 
@@ -248,4 +253,35 @@ public class MainActivity extends AppCompatActivity {
         return sleepTotal;
     }
 
+    public String [] readFileMood(String name, String person){
+        BufferedReader br = null;
+        try {
+            String line;
+            String[] lines;
+            br = new BufferedReader(new FileReader(this.getFilesDir().getPath()+"/"+person+name));
+            StringBuffer buffer = new StringBuffer();
+            while((line = br.readLine())!= null){
+                line = line+",";
+                buffer.append(line);
+            }
+            String result = buffer.toString();
+            lines = result.split(",");
+
+            String wanted = lines[lines.length-1];
+            String[] moodInfo = wanted.split(";");
+            return moodInfo;
+        }catch (IOException e){
+            e.printStackTrace();
+        }finally {
+            try {
+                if (br != null){
+                    br.close();
+                }
+            }catch (IOException ex){
+                ex.printStackTrace();
+            }
+        }
+        String[] moodInfo =null;
+        return  moodInfo;
+    }
 }
