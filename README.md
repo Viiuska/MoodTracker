@@ -6,6 +6,13 @@ Viia Mäntymäki
 
 Course learning diary: https://lut-my.sharepoint.com/:w:/g/personal/viia_mantymaki_student_lut_fi/EU6EasFWI8tGpN2rS-jaQccBOJyaCAQsEwK4pZNBOXO56w?e=tucBuD
 
+Mood tracker demo video: https://drive.google.com/file/d/1Ic8hYBrcpvCWn9soDGsDGUFuIxOWeGpR/view?usp=sharing
+
+https://github.com/Viiuska/Part1
+
+https://github.com/Viiuska/Part2
+
+https://github.com/Viiuska/Part3
 
 This is the course project. I made the Mood Tracker app where the user can create an account, add their daily mood and amount of sleep. User can read tips to feel mentally better via buttons that redirects user different websites. There are also development opportunity to later on to get notification and communinication with other users to work.
 
