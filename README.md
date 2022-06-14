@@ -4,10 +4,11 @@ Software Development Skills: Mobile 2021-22
 
 Viia Mäntymäki
 
-Course learning diary: https://lut-my.sharepoint.com/:w:/g/personal/viia_mantymaki_student_lut_fi/EU6EasFWI8tGpN2rS-jaQccBOJyaCAQsEwK4pZNBOXO56w?e=tucBuD
+Course learning diary:(https://lut-my.sharepoint.com/:w:/g/personal/viia_mantymaki_student_lut_fi/EU6EasFWI8tGpN2rS-jaQccBOJyaCAQsEwK4pZNBOXO56w?e=HnlBHb)
 In learning diary you can view the sources that I used in the project.
 
-Mood tracker demo video: https://drive.google.com/file/d/1Ic8hYBrcpvCWn9soDGsDGUFuIxOWeGpR/view?usp=sharing
+Mood tracker demo video: [https://drive.google.com/file/d/1Ic8hYBrcpvCWn9soDGsDGUFuIxOWeGpR/view?usp=sharing
+]
 
 Here are the course exercises:
 
